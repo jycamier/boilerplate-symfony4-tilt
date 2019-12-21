@@ -1,0 +1,125 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-config
+data:
+  nginx.conf: |
+    events {}
+    http {
+      server {
+          listen 80 default_server;
+          listen [::]:80 default_server;
+          root /var/www/html/public;
+
+          location / {
+              try_files $uri /index.php$is_args$args;
+          }
+
+          location /bundles {
+             try_files $uri =404;
+          }
+
+          location ~ ^/index\.php(/|$) {
+              fastcgi_pass 127.0.0.1:9000;
+              fastcgi_split_path_info ^(.+\.php)(/.*)$;
+              include fastcgi_params;
+
+              fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+              fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+              internal;
+          }
+
+          location ~ \.php$ {
+              return 404;
+          }
+      }
+    }
+...
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+    version: 1.0.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+        date: 1576836632
+    spec:
+      volumes:
+        - name: shared-files
+          emptyDir: {}
+        - name: nginx-config-volume
+          configMap:
+            name: nginx-config
+      containers:
+        - image: clever/symfony/php7.4-fpm-alpine:latest
+          name: sf4
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: shared-files
+              mountPath: /var/www/html
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "sh"
+                  - "/app/bin/install.sh"
+          readinessProbe:
+            exec:
+              command:
+                - ls
+                - /ready
+            initialDelaySeconds: 5
+            periodSeconds: 10
+        - name: nginx
+          image: nginx:1.16-alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: shared-files
+              mountPath: /var/www/html
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sf4
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+...
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+spec:
+  rules:
+    - host: sf4.localhost
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: sf4
+              servicePort: 80

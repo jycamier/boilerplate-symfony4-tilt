@@ -1,0 +1,9 @@
+service:
+  type: LoadBalancer
+
+ingress:
+  enabled: true
+  hosts:
+    - host: sf4.localhost
+      paths:
+        - /

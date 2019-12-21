@@ -1,0 +1,39 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "sf4.fullname" . }}-nginx-configmap
+  labels:
+    {{- include "sf4.labels" . | nindent 4 }}
+data:
+  nginx.conf: |
+    events {}
+    http {
+      server {
+          listen 80 default_server;
+          listen [::]:80 default_server;
+          root /var/www/html/public;
+
+          location / {
+              try_files $uri /index.php$is_args$args;
+          }
+
+          location /bundles {
+             try_files $uri =404;
+          }
+
+          location ~ ^/index\.php(/|$) {
+              fastcgi_pass 127.0.0.1:9000;
+              fastcgi_split_path_info ^(.+\.php)(/.*)$;
+              include fastcgi_params;
+
+              fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+              fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+              internal;
+          }
+
+          location ~ \.php$ {
+              return 404;
+          }
+      }
+    }
