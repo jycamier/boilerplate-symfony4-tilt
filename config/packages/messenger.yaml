@@ -1,0 +1,22 @@
+framework:
+    messenger:
+        default_bus: command.bus
+        buses:
+            command.bus: ~
+            query.bus: ~
+            event.bus: ~
+        failure_transport: failed
+        transports:
+            sync:
+                dsn: 'sync://'
+            doctrine:
+                dsn: 'doctrine://default'
+                options:
+                    queue_name: event_store
+            failed:
+                dsn: 'doctrine://default'
+                options:
+                    queue_name: event_failed
+        routing:
+            App\Application\SyncMessageInterface: sync
+            App\Application\AsyncMessageInterface: doctrine

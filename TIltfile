@@ -1,0 +1,9 @@
+k8s_yaml('./k8/sf.yaml')
+docker_build('clever/symfony/php7.4-fpm-alpine:latest', './',
+  live_update=[
+    sync('./', '/var/www/html'),
+    run('composer install --working-dir=/var/www/html', trigger = 'composer.lock'),
+    run('composer run-script cc --working-dir=/var/www/html', trigger = 'clear'),
+  ],
+  target = 'symfony_prod'
+)

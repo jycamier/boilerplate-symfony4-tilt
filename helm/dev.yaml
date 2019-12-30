@@ -7,3 +7,10 @@ ingress:
     - host: sf4.localhost
       paths:
         - /
+
+database:
+  enabled: true
+  db:
+    user: sf
+    password: sf
+    name: sf

@@ -1,10 +1,15 @@
 version: "3.7"
 services:
-  fpm:
-    image: clever/symfony/php7.4-fpm-alpine:latest
+  workspace:
     build:
       context: .
+      target: symfony_dev
       args:
         PHP_VERSION: 7.4-fpm-alpine
         COMPOSER_VERSION: latest
     command: php -v
+    volumes:
+      - ./:/app
+      - ./docker/workspace/.zshrc:/root/.zshrc
+
+

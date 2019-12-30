@@ -1,0 +1,10 @@
+App\Domain\Review\Review:
+  group_sequence:
+  constraints: ~
+  properties:
+    score:
+      - NotBlank: ~
+      - NotNull: ~
+      - PositiveOrZero: ~
+      - LessThanOrEqual:
+          value: 100

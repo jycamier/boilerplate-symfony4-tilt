@@ -1,0 +1,13 @@
+resources:
+  App\Domain\Offer\Offer:
+    shortName: 'Offer'                   # optional
+    description: 'An offer from my shop' # optional
+    attributes:                          # optional
+      pagination_items_per_page: 25    #
+    collectionOperations:
+      get: ~
+      post:
+        input: App\Application\Command\Offer\CreateOffer
+        messenger: input
+    itemOperations:
+      get: ~

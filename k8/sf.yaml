@@ -1,12 +1,22 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: fpm
+data:
+  env: dev
+  debug: '1'
+  verbosity: '1'
 ---
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: nginx-config
+  name: nginx
 data:
   nginx.conf: |
     events {}
     http {
+      include    mime.types;
+      sendfile on;
       server {
           listen 80 default_server;
           listen [::]:80 default_server;
@@ -54,18 +64,33 @@ spec:
     metadata:
       labels:
         app: nginx
-        date: 1576836632
     spec:
       volumes:
         - name: shared-files
           emptyDir: {}
         - name: nginx-config-volume
           configMap:
-            name: nginx-config
+            name: nginx
       containers:
         - image: clever/symfony/php7.4-fpm-alpine:latest
           name: sf4
           imagePullPolicy: IfNotPresent
+          env:
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: fpm
+                  key: env
+            - name: SHELL_VERBOSITY
+              valueFrom:
+                configMapKeyRef:
+                  name: fpm
+                  key: verbosity
+            - name: APP_DEBUG
+              valueFrom:
+                configMapKeyRef:
+                  name: fpm
+                  key: debug
           volumeMounts:
             - name: shared-files
               mountPath: /var/www/html
@@ -123,3 +148,48 @@ spec:
             backend:
               serviceName: sf4
               servicePort: 80
+...
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  labels:
+    app: mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - image: mariadb:10.4.11-bionic
+          name: database
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: sf
+            - name: MYSQL_DATABASE
+              value: sf
+            - name: MYSQL_USER
+              value: sf
+            - name: MYSQL_PASSWORD
+              value: sf
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb
+  labels:
+    app: mariadb
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+  selector:
+    app: mariadb

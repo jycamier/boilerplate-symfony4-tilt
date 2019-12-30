@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: {{ include "sf4.fullname" . }}-nginx-configmap
+  name: {{ include "sf4.fullname" . }}-nginx
   labels:
     {{- include "sf4.labels" . | nindent 4 }}
 data:

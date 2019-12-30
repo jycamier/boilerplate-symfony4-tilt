@@ -14,6 +14,9 @@ fpm:
   version: latest
   pullPolicy: IfNotPresent
 
+database:
+  enabled: false
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
