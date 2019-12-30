@@ -8,6 +8,21 @@
     <entity name="App\Domain\Offer\Offer">
         <id name="uuid" type="string"/>
         <field name="name" column="name" type="string" length="50" nullable="true" unique="true"/>
+        <field name="patchVersion" column="patch_version" type="integer">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
+        <field name="minorVersion" column="minor_version" type="integer">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
+        <field name="majorVersion" column="major_version" type="integer">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
     </entity>
 
 </doctrine-mapping>

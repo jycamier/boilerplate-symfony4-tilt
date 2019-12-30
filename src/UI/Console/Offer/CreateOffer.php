@@ -42,5 +42,7 @@ class CreateOffer extends Command
         $this->messageBus->dispatch(
             new CommandCreateOffer($input->getArgument('name'), $input->getArgument('uuid'))
         );
+
+        return 0;
     }
 }
