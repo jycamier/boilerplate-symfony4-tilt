@@ -6,6 +6,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 use InvalidArgumentException;
+use Webmozart\Assert\Assert;
 
 class Offer
 {
@@ -19,9 +20,7 @@ class Offer
 
     protected function __construct(string $uuid, string $name)
     {
-        if (!Uuid::isValid($uuid)) {
-            throw new InvalidArgumentException("{$uuid} isn't a valid Uuid");
-        }
+        Assert::uuid($uuid);
 
         $this->uuid = $uuid;
         $this->name = $name;
