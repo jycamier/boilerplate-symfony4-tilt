@@ -53,4 +53,13 @@ class Offer
     {
         return $this->majorVersion;
     }
+
+    public function getVersion(): string
+    {
+        return implode('.', [
+            $this->majorVersion,
+            $this->minorVersion,
+            $this->patchVersion,
+        ]);
+    }
 }

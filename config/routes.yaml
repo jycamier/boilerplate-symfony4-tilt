@@ -4,7 +4,16 @@
 
 hello:
   path: /hello/{id}
-  controller: App\Controller\Hello
+  controller: App\UI\Controller\Hello
+
 show:
   path: /
-  controller: App\Controller\Show
+  controller: App\UI\Controller\Show
+
+offer_create:
+  path: /offer/create
+  controller: App\UI\Controller\Offer\Create
+
+offer_increment_version:
+  path: /offer/{uuid}/incrementVersion/{version}
+  controller: App\UI\Controller\Offer\IncrementVersion

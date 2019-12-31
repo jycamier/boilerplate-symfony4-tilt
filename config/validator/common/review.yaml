@@ -8,3 +8,10 @@ App\Domain\Review\Review:
       - PositiveOrZero: ~
       - LessThanOrEqual:
           value: 100
+
+App\Domain\Offer\Offer:
+  group_sequence: ~
+  constraints:
+    - App\Infrastructure\Constraint\OfferNameIsUnique: ~
+    - App\Infrastructure\Constraint\OfferUuidIsUnique: ~
+  properties: ~

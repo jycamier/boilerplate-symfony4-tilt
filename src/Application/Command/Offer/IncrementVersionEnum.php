@@ -1,7 +1,6 @@
 <?php
 
-
-namespace App\UI\Common;
+namespace App\Application\Command\Offer;
 
 use MyCLabs\Enum\Enum;
 

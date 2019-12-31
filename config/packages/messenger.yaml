@@ -2,7 +2,10 @@ framework:
     messenger:
         default_bus: command.bus
         buses:
-            command.bus: ~
+            command.bus:
+                middleware:
+#                    - validation
+                    - doctrine_transaction
             query.bus: ~
             event.bus: ~
         failure_transport: failed
@@ -18,5 +21,7 @@ framework:
                 options:
                     queue_name: event_failed
         routing:
-            App\Application\SyncMessageInterface: sync
+            App\Application\SyncMessageInterface:
+                - sync
+                - doctrine
             App\Application\AsyncMessageInterface: doctrine

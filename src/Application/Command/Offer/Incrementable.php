@@ -3,7 +3,6 @@
 
 namespace App\Application\Command\Offer;
 
-
 trait Incrementable
 {
     private string $uuid;

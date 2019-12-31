@@ -11,3 +11,22 @@ resources:
         messenger: input
     itemOperations:
       get: ~
+
+  App\Application\Command\Offer\IncrementVersion:
+    shortName: 'OfferIncrementVersion'
+    description: 'All that you need to increment version (majeur, minor, patch)'
+    properties:
+      versionType:
+        attributes:
+          swagger_context:
+            type: string
+            enum: ['patch','minor','major',]
+            example: patch
+    collectionOperations:
+      post:
+        status: 202
+        path: /offers/increment_version
+    itemOperations: []
+    attributes:
+      messenger: true
+      output: false

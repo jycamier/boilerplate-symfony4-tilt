@@ -13,6 +13,10 @@ services:
 
     # makes classes in src/ available to be used as services
 
+    App\Infrastructure\Constraint\Validator\:
+        resource: '../src/Infrastructure/Constraint/Validator'
+        tags: ['validator.constraint_validator']
+
     App\UI\Console\:
         resource: '../src/UI/Console'
         tags: ['console.command']
@@ -20,13 +24,15 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Repository,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{DependencyInjection,Validator,Entity,Repository,Migrations,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-        resource: '../src/Controller'
+    App\UI\Controller\:
+        resource: '../src/UI/Controller'
         tags: ['controller.service_arguments']
+
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
