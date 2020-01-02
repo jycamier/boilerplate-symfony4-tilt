@@ -24,7 +24,11 @@ class OfferRepository implements OfferRepositoryInterface, RepositoryInterface
     public function add(Offer $offer): void
     {
         $this->entityManager->persist($offer);
-//        $this->entityManager->flush();
+    }
+
+    public function update(Offer $offer): void
+    {
+        $this->entityManager->persist($offer);
     }
 
     public function incrementPatchVersion(string $uuid): void
@@ -80,5 +84,27 @@ class OfferRepository implements OfferRepositoryInterface, RepositoryInterface
     public function getRepository(): ObjectRepository
     {
         return $this->entityManager->getRepository(Offer::class);
+    }
+
+    public function remove(string $uuid): void
+    {
+        $dql = 'DELETE FROM App\Domain\Offer\Offer o WHERE o.uuid = :uuid';
+
+        $this->incrementVersion($dql, $uuid);
+    }
+
+    public function find(string $uuid)
+    {
+        return $this->getRepository()->find($uuid);
+    }
+
+    public function getLastVersionOffer()
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->select('NEW App\Application\Query\Offer\DTO\LastVersionOffer(o.uuid, o.name, o.majorVersion, o.minorVersion, o.patchVersion)')
+            ->from(Offer::class, 'o')
+            ->where('o.lastVersion = true')
+            ->getQuery()
+            ->getResult();
     }
 }

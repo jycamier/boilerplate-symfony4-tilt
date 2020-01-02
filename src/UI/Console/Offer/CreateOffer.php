@@ -3,6 +3,7 @@
 
 namespace App\UI\Console\Offer;
 
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\MessageBusInterface;
 use App\Application\Command\Offer\CreateOffer as CommandCreateOffer;
-
 
 class CreateOffer extends Command
 {
@@ -42,7 +42,9 @@ class CreateOffer extends Command
         $io->writeln('Creation of an offer...');
 
         $this->messageBus->dispatch(
-            new CommandCreateOffer($input->getArgument('name'), $input->getArgument('uuid'))
+            new CommandCreateOffer(
+                $input->getArgument('name'), $input->getArgument('uuid') ?? Uuid::uuid4()->toString()
+            )
         );
 
         return 0;

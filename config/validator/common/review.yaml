@@ -12,6 +12,6 @@ App\Domain\Review\Review:
 App\Domain\Offer\Offer:
   group_sequence: ~
   constraints:
-    - App\Infrastructure\Constraint\OfferNameIsUnique: ~
+#    - App\Infrastructure\Constraint\OfferNameIsUnique: ~
     - App\Infrastructure\Constraint\OfferUuidIsUnique: ~
   properties: ~

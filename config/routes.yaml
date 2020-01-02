@@ -14,6 +14,10 @@ offer_create:
   path: /offer/create
   controller: App\UI\Controller\Offer\Create
 
+offer_delete:
+  path: /offer/{uuid}
+  controller: App\UI\Controller\Offer\Delete
+
 offer_increment_version:
   path: /offer/{uuid}/incrementVersion/{version}
   controller: App\UI\Controller\Offer\IncrementVersion

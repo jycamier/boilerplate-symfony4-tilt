@@ -13,7 +13,7 @@ resources:
       get: ~
 
   App\Application\Command\Offer\IncrementVersion:
-    shortName: 'OfferIncrementVersion'
+    shortName: 'OfferIncrementVersionssssss'
     description: 'All that you need to increment version (majeur, minor, patch)'
     properties:
       versionType:

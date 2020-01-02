@@ -17,6 +17,7 @@ ADD bin bin/
 ADD config config/
 ADD public public/
 ADD src src/
+ADD templates templates/
 
 ENV SHELL_VERBOSITY 1
 ENV APP_ENV prod

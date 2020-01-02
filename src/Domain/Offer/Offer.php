@@ -2,6 +2,7 @@
 
 namespace App\Domain\Offer;
 
+use Cocur\Slugify\Slugify;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -15,18 +16,43 @@ class Offer
         return new self($uuid, $name);
     }
 
+    public static function createFromOffer(string $uuid, Offer $offer): Offer
+    {
+        return new self(
+            $uuid,
+            $offer->getName(),
+            $offer->getPatchVersion(),
+            $offer->getMinorVersion(),
+            $offer->getMajorVersion(),
+            $offer
+        );
+    }
+
     private string $uuid;
     private string $name;
-    private int $patchVersion = 0;
-    private int $minorVersion = 0;
-    private int $majorVersion = 0;
+    private string $slug;
+    private int $patchVersion;
+    private int $minorVersion;
+    private int $majorVersion;
+    private bool $lastVersion = true;
+    private ?Offer $previousMajorVersion;
 
-    protected function __construct(string $uuid, string $name)
-    {
+    protected function __construct(
+        string $uuid,
+        string $name,
+        int $patchVersion = 0,
+        int $minorVersion = 0,
+        int $majorVersion = 0,
+        ?Offer $previousMajorVersion = null
+    ) {
         Assert::uuid($uuid);
 
         $this->uuid = $uuid;
         $this->name = $name;
+        $this->patchVersion = $patchVersion;
+        $this->minorVersion = $minorVersion;
+        $this->majorVersion = $majorVersion;
+        $this->previousMajorVersion = $previousMajorVersion;
     }
 
     public function getUuid(): string
@@ -54,12 +80,23 @@ class Offer
         return $this->majorVersion;
     }
 
-    public function getVersion(): string
+    public function setLastVersion(bool $lastVersion): void
     {
-        return implode('.', [
-            $this->majorVersion,
-            $this->minorVersion,
-            $this->patchVersion,
-        ]);
+        $this->lastVersion = $lastVersion;
+    }
+
+    public function isLastVersion(): bool
+    {
+        return $this->lastVersion;
+    }
+
+    public function __toString(): string
+    {
+        return "{$this->name}[{$this->uuid}]";
+    }
+
+    public function getPreviousMajorVersion(): ?Offer
+    {
+        return $this->previousMajorVersion;
     }
 }

@@ -3,12 +3,12 @@
 
 namespace App\Application\Command\Offer\Handler;
 
-use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Application\Command\Offer\CreateOffer;
 use App\Domain\Offer\Offer;
 use App\Domain\Offer\OfferRepositoryInterface;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use function count;
 
 class CreateOfferHandler implements MessageHandlerInterface

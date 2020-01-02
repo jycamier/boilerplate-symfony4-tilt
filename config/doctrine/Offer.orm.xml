@@ -7,7 +7,8 @@
 
     <entity name="App\Domain\Offer\Offer">
         <id name="uuid" type="string"/>
-        <field name="name" column="name" type="string" length="50" nullable="true" unique="true"/>
+        <field name="name" column="name" type="string" length="50" nullable="true"/>
+        <field name="lastVersion" column="last_version" type="boolean"/>
         <field name="patchVersion" column="patch_version" type="integer">
             <options>
                 <option name="default">0</option>
@@ -23,6 +24,9 @@
                 <option name="default">0</option>
             </options>
         </field>
+        <one-to-one field="previousMajorVersion" target-entity="App\Domain\Offer\Offer">
+            <join-column name="previous_major_version_offer_uuid" referenced-column-name="uuid" />
+        </one-to-one>
     </entity>
 
 </doctrine-mapping>
