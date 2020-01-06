@@ -44,7 +44,7 @@ class IncrementVersionHandler implements MessageHandlerInterface
                     (array)$incrementVersion->getUuid()
                 );
             }
-            $command = new CreateFromOffer($offer, Uuid::uuid4()->toString());
+            $command = new CreateFromOffer($offer, $incrementVersion->getNewOfferUuid());
         }
         if ($this->getIncrementVersionEnum($incrementVersion)->equals(IncrementVersionEnum::PATCH())) {
             $command = new IncrementPatchVersion($incrementVersion->getUuid());

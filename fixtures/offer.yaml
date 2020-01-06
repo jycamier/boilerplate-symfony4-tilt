@@ -1,0 +1,3 @@
+App\Domain\Offer\Offer:
+  base_offer_{1..4}:
+    __factory: { create: ['<uuid()>', '<sentence(3, true)>'] }

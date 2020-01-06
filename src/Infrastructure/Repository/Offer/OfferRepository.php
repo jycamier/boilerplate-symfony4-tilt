@@ -13,12 +13,10 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class OfferRepository implements OfferRepositoryInterface, RepositoryInterface
 {
     private EntityManagerInterface $entityManager;
-    private MessageBusInterface $messageBus;
 
-    public function __construct(EntityManagerInterface $entityManager, MessageBusInterface $messageBus)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->messageBus = $messageBus;
     }
 
     public function add(Offer $offer): void

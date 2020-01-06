@@ -1,0 +1,53 @@
+App\Application\Command\Customer\CreateCustomer:
+  customer_{1..20}:
+    __construct:
+      - '<uuid()>'
+      - '<lastName()>'
+      - '<firstName()>'
+
+App\Application\Command\Offer\CreateOffer:
+  offer_{1..3}:
+    __construct:
+      - '<sentence(3, true)>'
+      - '<uuid()>'
+
+App\Application\Command\Offer\IncrementVersion:
+  versionOffer1_{1..6}:
+    __construct:
+      - '<versionTypeNotMajor()>'
+      - '@offer_1->uuid'
+  versionOffer2_{1..9}:
+    __construct:
+      - '<versionTypeNotMajor()>'
+      - '@offer_2->uuid'
+  versionOffer3_{1..12}:
+    __construct:
+      - '<versionTypeNotMajor()>'
+      - '@offer_3->uuid'
+  versionOffer1_7_major:
+    __construct:
+      - '<versionTypeMajor()>'
+      - '@versionOffer1_6->uuid'
+      - '<uuid()>'
+  versionOffer2_10_major:
+    __construct:
+      - '<versionTypeMajor()>'
+      - '@versionOffer2_9->uuid'
+      - '<uuid()>'
+  versionOffer3_13_major:
+    __construct:
+      - '<versionTypeMajor()>'
+      - '@versionOffer3_12->uuid'
+      - '<uuid()>'
+  versionOffer1_{8..12}:
+    __construct:
+      - '<versionTypeNotMajor()>'
+      - '@versionOffer1_7_major->newOfferUuid'
+  versionOffer2_{11..20}:
+    __construct:
+      - '<versionTypeNotMajor()>'
+      - '@versionOffer2_10_major->newOfferUuid'
+  versionOffer3_{13..25}:
+    __construct:
+      - '<versionTypeNotMajor()>'
+      - '@versionOffer3_13_major->newOfferUuid'

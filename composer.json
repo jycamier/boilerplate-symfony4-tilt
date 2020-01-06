@@ -6,6 +6,8 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "api-platform/api-pack": "^1.2",
+        "cocur/slugify": "^4.0",
+        "doctrine/doctrine-bundle": "^2.0",
         "myclabs/php-enum": "^1.7",
         "ramsey/uuid": "^3.9",
         "symfony/console": "4.4.*",
@@ -23,6 +25,7 @@
         "webmozart/assert": "^1.6"
     },
     "require-dev": {
+        "nelmio/alice": "^3.5",
         "phpspec/phpspec": "^6.1"
     },
     "config": {

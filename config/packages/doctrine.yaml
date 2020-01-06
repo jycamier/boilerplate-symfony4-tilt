@@ -12,6 +12,11 @@ doctrine:
         mappings:
             App\Domain\Offer:
                 type: xml
-                dir: '%kernel.project_dir%/config/doctrine'
+                dir: '%kernel.project_dir%/config/doctrine/offer/'
                 is_bundle: false
                 prefix: App\Domain\Offer
+            App\Domain\Customer:
+                type: xml
+                dir: '%kernel.project_dir%/config/doctrine/customer/'
+                is_bundle: false
+                prefix: App\Domain\Customer

@@ -28,5 +28,4 @@
             <join-column name="previous_major_version_offer_uuid" referenced-column-name="uuid" />
         </one-to-one>
     </entity>
-
 </doctrine-mapping>

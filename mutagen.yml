@@ -1,0 +1,14 @@
+sync:
+  defaults:
+    ignore:
+      vcs: true
+  code:
+    alpha: "docker://boilerplate-symfony4-tilt_fpm_1/app"
+    beta: "."
+    mode: "one-way-replica"
+    ignore:
+      paths:
+        - '*'
+        - '!vendor/'
+        - '!composer.json'
+        - '!composer.lock'

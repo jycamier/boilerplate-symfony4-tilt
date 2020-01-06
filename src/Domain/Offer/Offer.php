@@ -2,11 +2,6 @@
 
 namespace App\Domain\Offer;
 
-use Cocur\Slugify\Slugify;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
-
-use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 
 class Offer
@@ -30,7 +25,6 @@ class Offer
 
     private string $uuid;
     private string $name;
-    private string $slug;
     private int $patchVersion;
     private int $minorVersion;
     private int $majorVersion;

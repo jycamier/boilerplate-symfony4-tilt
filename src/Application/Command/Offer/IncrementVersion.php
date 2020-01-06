@@ -9,8 +9,9 @@ class IncrementVersion implements SyncMessageInterface
 {
     private string $versionType;
     private string $uuid;
+    private ?string $newOfferUuid;
 
-    public function __construct(string $versionType, string $uuid)
+    public function __construct(string $versionType, string $uuid, string $newOfferUuid = null)
     {
         Assert::true(
             IncrementVersionEnum::isValid($versionType),
@@ -18,6 +19,7 @@ class IncrementVersion implements SyncMessageInterface
         );
         $this->versionType = $versionType;
         $this->uuid = $uuid;
+        $this->newOfferUuid = $newOfferUuid;
     }
 
     public function getVersionType(): string
@@ -28,5 +30,10 @@ class IncrementVersion implements SyncMessageInterface
     public function getUuid(): string
     {
         return $this->uuid;
+    }
+
+    public function getNewOfferUuid(): ?string
+    {
+        return $this->newOfferUuid;
     }
 }

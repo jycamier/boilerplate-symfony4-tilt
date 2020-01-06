@@ -1,0 +1,6 @@
+App\Domain\Customer\Customer:
+  customer_{1..10}:
+    __construct:
+      - '<uuid()>'
+      - '<lastName()>'
+      - '<firstName()>'

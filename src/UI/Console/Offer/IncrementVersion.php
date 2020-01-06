@@ -2,6 +2,7 @@
 
 namespace App\UI\Console\Offer;
 
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,7 +34,11 @@ class IncrementVersion extends Command
     {
         $output->writeln('Increment of an offer...');
         $this->messageBus->dispatch(
-            new IncrementVersionCommand($input->getArgument('version'), $input->getArgument('uuid'))
+            new IncrementVersionCommand(
+                $input->getArgument('version'),
+                $input->getArgument('uuid'),
+                Uuid::uuid4()->toString()
+            )
         );
 
         return 0;

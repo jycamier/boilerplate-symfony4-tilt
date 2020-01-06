@@ -2,3 +2,15 @@ debug:
     # Forwards VarDumper Data clones to a centralized server allowing to inspect dumps on CLI or in your browser.
     # See the "server:dump" command to start a new server.
     dump_destination: "tcp://%env(VAR_DUMPER_SERVER)%"
+
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    App\Faker\Provider\OfferVersionTypeProvider:
+        tags:
+            - { name: nelmio_alice.faker.provider }

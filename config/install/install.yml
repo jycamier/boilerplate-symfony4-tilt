@@ -1,0 +1,12 @@
+- command: doctrine:database:drop
+  --if-exists: true
+  --force: true
+  --no-ansi: true
+  --no-interaction: true
+- command: doctrine:database:create
+  --if-not-exists: true
+  --no-ansi: true
+  --no-interaction: true
+- command: doctrine:schema:create
+  --no-ansi: true
+  --no-interaction: true
